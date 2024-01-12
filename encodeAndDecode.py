@@ -1,8 +1,11 @@
 import base64 
 
-def base64Encode(input: str):
-    inputBytes = input.encode("ascii")
-    base64Bytes = base64.b64encode(inputBytes)
-    base64String = base64Bytes.decode("ascii")
-    return base64String
+def base64Encode(input: str) -> str:
+    stringBytes = input.encode("ascii")
+    encodedBytes = base64.b64encode(stringBytes)
+    return encodedBytes.decode("ascii")
 
+def base64Decode(input: str) -> str:
+    encodedBytes = input.encode("ascii")
+    stringBytes = base64.b64decode(encodedBytes)
+    return stringBytes.decode("ascii")
