@@ -9,3 +9,9 @@ def base64Decode(input: str) -> str:
     encodedBytes = input.encode("ascii")
     stringBytes = base64.b64decode(encodedBytes)
     return stringBytes.decode("ascii")
+
+def convertToHex(binary: str):
+    return str(hex(int(binary, 2)))[2:]
+
+def convertToBytes(hexStr: str):
+    return bin(int(hexStr, 16))[2:]
