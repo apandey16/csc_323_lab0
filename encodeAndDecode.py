@@ -1,4 +1,5 @@
 import base64 
+import binascii
 
 def base64Encode(input: str) -> str:
     stringBytes = input.encode("ascii")
@@ -10,8 +11,19 @@ def base64Decode(input: str) -> str:
     stringBytes = base64.b64decode(encodedBytes)
     return stringBytes.decode("ascii")
 
-def convertToHex(binary: str) -> str:
-    return str(hex(int(binary, 2)))[2:]
+def convertToHex(binary: bytes) -> str:
+    return str(binary.hex())
 
-def convertToBytes(hexStr: str) -> str:
-    return bin(int(hexStr, 16))[2:]
+def convertToBytes(hexStr: str) -> bytes:
+    return binascii.unhexlify(hexStr)
+
+# byte_data="hey".encode("utf-16")
+
+# print("BEFORE:",byte_data, type(byte_data))
+# print()
+
+# converted = convertToHex(byte_data)
+# print("AFTER:", converted, type(converted))
+# print()
+
+# print("BACK AGAIN:", convertToBytes(converted))
