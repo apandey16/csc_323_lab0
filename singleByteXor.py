@@ -14,14 +14,15 @@ file.close()
 def scoreMsg(msg: str) -> float:
 
     trimmedMsg = msg.replace(" ", "")
+    msgLen = len(trimmedMsg)
 
     msgFrequency = {}
 
     for char in trimmedMsg:
         if char in msgFrequency:
-            msgFrequency[char] += 1/len(trimmedMsg)
+            msgFrequency[char] += 1/msgLen
         else:
-            msgFrequency[char] = 1/len(trimmedMsg)
+            msgFrequency[char] = 1/msgLen
         
     score = 0
     for char in msgFrequency:
