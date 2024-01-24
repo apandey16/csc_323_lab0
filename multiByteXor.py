@@ -18,5 +18,7 @@ for char in msg:
     else:
         msgFrequency[char] = 1/len(msg)
 
+
+
 print(msgFrequency)
 print(len(msgFrequency))
