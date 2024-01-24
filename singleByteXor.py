@@ -19,7 +19,9 @@ def scoreMsg(msg: str) -> float:
         
     score = 0
     for char in msgFrequency:
-        if char.upper() in letterFrequency:
+        if not char.isalpha():
+            score += 100
+        elif char.upper() in letterFrequency:
             score += math.fabs(msgFrequency[char] - letterFrequency[char.upper()])
     
     return score
@@ -27,11 +29,13 @@ def scoreMsg(msg: str) -> float:
 singleByte = list(range(0, 256))
 contentDict = {}
 
-for key in singleByte:
-    file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
-    while True:
+file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
+lines = file.read().splitlines()
+file.close()
 
-        byteContent = convertToBytes(file.readline())
+for key in singleByte:
+    for line in lines:
+        byteContent = convertToBytes(line)
         content = xor(bytes([key]), byteContent)
 
         if not content:
@@ -42,17 +46,21 @@ for key in singleByte:
             decodedStr += chr(single_byte)
         contentDict[decodedStr] = float(scoreMsg(decodedStr))
             
-    file.close()
-
 sorted_dict = dict(sorted(contentDict.items(), key=operator.itemgetter(1)))
 
 x = 0
+count = 0
 for item in sorted_dict:
+    if sorted_dict[item] == 0:
+        count+=1
+        continue
+    # print(item, sorted_dict[item])
     if x >= 20:
         break
-    if x >= 0:
-        print("SCORE:", sorted_dict[item])
-        print("MESSAGE:", item)
-        print()
+    print("SCORE:", sorted_dict[item])
+    print("MESSAGE:", item)
+    print()
     x += 1
+
+print("COUNT", count)
 
