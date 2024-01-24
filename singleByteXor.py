@@ -19,11 +19,16 @@ def scoreMsg(msg: str) -> int:
     sum = 0
     for char in msgFrequency:
         if char.upper() in letterFrequency:
-            sum += abs(msgFrequency[char.upper()] - letterFrequency[char])
+            sum += abs(msgFrequency[char] - letterFrequency[char.upper()])
     
     return sum
 
-singleByte = list(range(1, 256))
+singleByte = list(range(0, 256))
+singleByte = [0]
+file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
+
+lines = file.read().splitlines()
+
 contentDict = {}
 
 # file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
@@ -36,32 +41,50 @@ contentDict = {}
 
 # file.close()
 
-for key in singleByte:
-    file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
-    while True:
-        
+def decode(text):
+    
+    for key in singleByte:
+        decodedVal = xor(bytes([key]), convertToBytes(text))
+        print(decodedVal)
 
+        decodedScore = scoreMsg(decodedVal.decode("ascii", 'ignore'))
 
-        content = xor(bytes([key]), convertToBytes(file.readline()))
-        if not content:
-            break
+        if text in contentDict:
+            scoreKeyPair = contentDict[decodedVal]
+            if scoreKeyPair[1] > decodedScore:
+                contentDict.update({text :[decodedVal, decodedScore, key]})
+        else:
+            contentDict.update({text :[decodedVal, decodedScore, key]})
+
+# print(lines[0])
+decode(lines[0])
+print(contentDict)
+
+# for key in singleByte:
+    
+#     while True:
+
+#         content = xor(bytes([key]), convertToBytes(file.readline()))
+#         if not content:
+#             break
         
-        decodedStr = ""
-        for single_byte in content:
-            decodedStr += chr(single_byte)
-        contentDict[content] = scoreMsg(decodedStr)
+#         decodedStr = ""
+#         for single_byte in content:
+#             decodedStr += chr(single_byte)
+#         contentDict[content] = scoreMsg(decodedStr)
             
-    file.close()
+    
 
-sorted_dict = dict(sorted(contentDict.items(), key=operator.itemgetter(1)))
+# sorted_dict = dict(sorted(contentDict.items(), key=operator.itemgetter(1)))
 
-x = 0
-for item in sorted_dict:
-    if x >= 100:
-        break
-    if x >= 0:
-        print("SCORE:", sorted_dict[item])
-        print("MESSAGE:", item)
-        print()
-    x += 1
+# x = 0
+# for item in sorted_dict:
+#     if x >= 100:
+#         break
+#     if x >= 0:
+#         print("SCORE:", sorted_dict[item])
+#         print("MESSAGE:", item)
+#         print()
+#     x += 1
 
+file.close()
