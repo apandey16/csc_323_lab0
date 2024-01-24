@@ -24,7 +24,7 @@ def scoreMsg(msg: str) -> float:
     
     return score
 
-singleByte = list(range(1, 256))
+singleByte = list(range(0, 256))
 contentDict = {}
 
 for key in singleByte:
@@ -40,7 +40,7 @@ for key in singleByte:
         decodedStr = ""
         for single_byte in content:
             decodedStr += chr(single_byte)
-        contentDict[decodedStr] = scoreMsg(decodedStr)
+        contentDict[decodedStr] = float(scoreMsg(decodedStr))
             
     file.close()
 
