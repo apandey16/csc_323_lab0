@@ -15,15 +15,8 @@ def convertToHex(binary: bytes) -> str:
     return str(binary.hex())
 
 def convertToBytes(hexStr: str) -> bytes:
+    hexStr = ''.join(c for c in hexStr if c in '0123456789ABCDEFabcdef')
+
+    if len(hexStr) % 2 != 0:
+        hexStr = '0' + hexStr
     return binascii.unhexlify(hexStr)
-
-# byte_data="hey".encode("utf-16")
-
-# print("BEFORE:",byte_data, type(byte_data))
-# print()
-
-# converted = convertToHex(byte_data)
-# print("AFTER:", converted, type(converted))
-# print()
-
-# print("BACK AGAIN:", convertToBytes(converted))
