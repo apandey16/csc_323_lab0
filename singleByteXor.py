@@ -19,37 +19,27 @@ def scoreMsg(msg: str) -> int:
     sum = 0
     for char in msgFrequency:
         if char.upper() in letterFrequency:
-            sum += abs(msgFrequency[char.upper()] - letterFrequency[char])
+            sum += abs(msgFrequency[char] - letterFrequency[char.upper()])
     
     return sum
 
 singleByte = list(range(1, 256))
 contentDict = {}
 
-# file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
-# byteMSG = convertToBytes(file.readline())
-# potentialMSG = xor(bytes([1]), byteMSG)
-# byteStr = ""
-# for single_byte in potentialMSG:
-#     byteStr += chr(single_byte)
-# print(byteStr)
-
-# file.close()
-
 for key in singleByte:
     file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
     while True:
-        
 
+        byteContent = convertToBytes(file.readline())
+        content = xor(bytes([key]), byteContent)
 
-        content = xor(bytes([key]), convertToBytes(file.readline()))
         if not content:
             break
         
         decodedStr = ""
         for single_byte in content:
             decodedStr += chr(single_byte)
-        contentDict[content] = scoreMsg(decodedStr)
+        contentDict[decodedStr] = scoreMsg(decodedStr)
             
     file.close()
 
@@ -57,7 +47,7 @@ sorted_dict = dict(sorted(contentDict.items(), key=operator.itemgetter(1)))
 
 x = 0
 for item in sorted_dict:
-    if x >= 100:
+    if x >= 20:
         break
     if x >= 0:
         print("SCORE:", sorted_dict[item])
