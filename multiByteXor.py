@@ -12,10 +12,12 @@ msg = base64Decode(lines)
 trimmedMsg = msg.replace(" ", "")
 msgFrequency = {}
 
+print(msg)
 for char in trimmedMsg:
     if char in msgFrequency:
         msgFrequency[char] += 1/len(trimmedMsg)
     else:
         msgFrequency[char] = 1/len(trimmedMsg)
 
+print(msgFrequency)
 print(len(msgFrequency))
