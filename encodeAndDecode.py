@@ -2,19 +2,20 @@ import base64
 import binascii
 
 encryptionType = "utf-8"
-#'ascii'
+#'ascii'/'utf-8'
 handler = "replace"
-#'ignore'
+#'ignore'/'replace'
 
-def base64Encode(input: str) -> str:
+def base64Encode(input: str) :
     stringBytes = input.encode(encryptionType, handler)
     encodedBytes = base64.b64encode(stringBytes)
     return encodedBytes.decode(encryptionType,handler)
 
-def base64Decode(input: str) -> str:
+def base64Decode(input: str) -> bytes:
     encodedBytes = input.encode(encryptionType,handler)
-    stringBytes = base64.b64decode(encodedBytes)
-    return stringBytes.decode(encryptionType,handler)
+    return base64.b64decode(encodedBytes)
+    # stringBytes = base64.b64decode(encodedBytes)
+    # return stringBytes.decode(encryptionType,handler)
 
 def convertToHex(binary: bytes) -> str:
     return str(binary.hex())
