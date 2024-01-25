@@ -1,7 +1,7 @@
 import math
 from xor import xor
 from encodeAndDecode import base64Decode
-from singleByteXor import letterFrequency
+from singleByteXor import *
 
 file = open("Encrypted Messages/Lab0.TaskII.C.txt", "r")
 lines = file.read()
@@ -14,26 +14,6 @@ def convertToStr(input) -> str:
     return retStr
 msg = convertToStr(base64Decode(lines))
 
-def score(msg):
-    msgLen = len(msg)
-
-    msgFrequency = {}
-
-    for char in msg:
-        if char in msgFrequency:
-            msgFrequency[char] += 1/msgLen
-        else:
-            msgFrequency[char] = 1/msgLen
-        
-    score = 0
-    for char in msgFrequency:
-        if char.upper() in letterFrequency:
-            score += math.fabs(msgFrequency[char] - letterFrequency[char.upper()])
-        else:
-            score += 1
-    
-    return score
-
 def keyLen(input):
     curKeyLen = None
     curScore = 25
@@ -43,12 +23,9 @@ def keyLen(input):
     for keySize in range(2, 20):
         curStr = ""
         curStr = input[::keySize]
-        print(curStr)
-        print("score " + str(score(curStr)))
-        print()
     
-        if curScore > score(curStr):
-            curScore = score(curStr)
+        if curScore > scoreMsg(curStr):
+            curScore = scoreMsg(curStr)
             curKeyLen = keySize
             scoreLenDict[curScore] = curKeyLen
             

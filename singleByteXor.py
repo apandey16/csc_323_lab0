@@ -26,10 +26,10 @@ def scoreMsg(msg: str) -> float:
         
     score = 0
     for char in msgFrequency:
-        if not char.isalpha():
-            score += 1
-        elif char.upper() in letterFrequency:
+        if char.upper() in letterFrequency:
             score += math.fabs(msgFrequency[char] - letterFrequency[char.upper()])
+        else:
+            score += 1
     
     return score
 
