@@ -55,3 +55,4 @@ def keyLen(input):
     return scoreLenDict
 
 print("retVal: " + str(keyLen(msg)))
+
