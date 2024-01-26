@@ -48,11 +48,11 @@ def decoder(lines):
 
 def main():
     sortedList = decoder(flines)[:5]
-    print(sortedList)
+    
     for item in sortedList:
         print("MESSAGE:\n" + item[0])
         print("SCORE: \n" + str(item[1][0]))
-        print("KEY ASCII VAL: \n" + str(item[1][1]) +"\n")
+        print("KEY BYTE VAL: \n" + str(item[1][1]) +"\n")
 
 if __name__ == "__main__":
         main()

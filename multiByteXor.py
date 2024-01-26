@@ -27,19 +27,31 @@ def keyLen(input):
         if curScore > scoreMsg(curStr):
             curScore = scoreMsg(curStr)
             curKeyLen = keySize
-            scoreLenDict[curScore] = [curKeyLen]
+            scoreLenDict[curScore] = curKeyLen
             
     return scoreLenDict
 
 def decoderM(input, keySize):
     windows = []
-    scores = []
     for i in range(0,keySize):
         windows.append(input[i::keySize])
+    
+    # print(main(windows[0]))
+    for window in windows:
+        asciiKey = {}
+        decode = decoder(window)
+        for item in decode:
+            curKey = int(item[1][1])
+            if curKey in asciiKey:
+                asciiKey[curKey] += 1
+            else:
+               asciiKey[curKey] = 1 
+        print(asciiKey)
+        # print(decoder(window))
+        print()
+        print()
 
-        print(scoreMsg(windows[i]))
-
-        
+    
     return windows
     
 
