@@ -27,9 +27,21 @@ def keyLen(input):
         if curScore > scoreMsg(curStr):
             curScore = scoreMsg(curStr)
             curKeyLen = keySize
-            scoreLenDict[curScore] = curKeyLen
+            scoreLenDict[curScore] = [curKeyLen]
             
     return scoreLenDict
 
-print("retVal: " + str(keyLen(msg)))
+def decoderM(input, keySize):
+    windows = []
+    scores = []
+    for i in range(0,keySize):
+        windows.append(input[i::keySize])
 
+        print(scoreMsg(windows[i]))
+
+        
+    return windows
+    
+
+print("retVal: " + str(keyLen(msg)))
+print("STRS " +  str(decoderM(msg, 5)))
