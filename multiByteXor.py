@@ -35,25 +35,31 @@ def decoderM(input, keySize):
     windows = []
     for i in range(0,keySize):
         windows.append(input[i::keySize])
+    # Windows are made, now need to xor each window 
     
-    # print(main(windows[0]))
     for window in windows:
-        asciiKey = {}
-        decode = decoder(window)
-        for item in decode:
-            curKey = int(item[1][1])
-            if curKey in asciiKey:
-                asciiKey[curKey] += 1
-            else:
-               asciiKey[curKey] = 1 
-        print(asciiKey)
-        # print(decoder(window))
-        print()
-        print()
+        for key in range(1,256):
+            decipheredText = xor(key, convertToBytes(window))
+            print(decipheredText)
+    # print(main(windows[0]))
+    # for window in windows:
+    #     asciiKey = {}
+    #     decode = decoder(window)
+    #     for item in decode:
+    #         curKey = int(item[1][1])
+    #         print(item)
+    #         if curKey in asciiKey:
+    #             asciiKey[curKey] += 1
+    #         else:
+    #            asciiKey[curKey] = 1 
+    #     print(asciiKey)
+    #     # print(decoder(window))
+    #     print()
+    #     print()
 
     
     return windows
     
 
 print("retVal: " + str(keyLen(msg)))
-print("STRS " +  str(decoderM(msg, 5)))
+(decoderM(msg, 5))

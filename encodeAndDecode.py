@@ -6,10 +6,11 @@ encryptionType = "utf-8"
 handler = "replace"
 #'ignore'/'replace'
 
-def base64Encode(input: str) :
+def base64Encode(input: str) -> bytes:
     stringBytes = input.encode(encryptionType, handler)
-    encodedBytes = base64.b64encode(stringBytes)
-    return encodedBytes.decode(encryptionType,handler)
+    return base64.b64encode(stringBytes)
+    # encodedBytes = base64.b64encode(stringBytes)
+    # return encodedBytes.decode(encryptionType,handler)
 
 def base64Decode(input: str) -> bytes:
     encodedBytes = input.encode(encryptionType,handler)

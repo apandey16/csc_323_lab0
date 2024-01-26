@@ -37,7 +37,7 @@ def decoder(lines):
     for key in singleByte:
         for line in lines:
             byteContent = convertToBytes(line)
-            content = xor(bytes([key]), byteContent)
+            content = xor(key, byteContent)
             
             decodedStr = ""
             for single_byte in content:
