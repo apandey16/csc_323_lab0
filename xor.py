@@ -11,13 +11,9 @@
 #     return retStr
 
 def xor(key: bytes, value: bytes) -> bytes:
-    key_len = len(bytearray(key))
-
-    key_ptr = 0
     ret_bytes = bytearray()
 
     for byte in value:
         ret_bytes.append(byte ^ key)
-        key_ptr += 1
 
     return bytes(ret_bytes)
