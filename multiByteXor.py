@@ -14,6 +14,8 @@ def convertToStr(input) -> str:
     return retStr
 msg = convertToStr(base64Decode(lines))
 
+# def toBytes(input)
+
 def keyLen(input):
     curKeyLen = None
     curScore = 25
@@ -31,16 +33,55 @@ def keyLen(input):
             
     return scoreLenDict
 
+def filter(inputText):
+    # print((inputText))
+    for letter in inputText:
+        character = chr(letter)
+        # print(character.isascii())
+        if character not in letterFrequency and character != ' ':
+            return False
+    
+    return True
+
+
 def decoderM(input, keySize):
     windows = []
     for i in range(0,keySize):
         windows.append(input[i::keySize])
     # Windows are made, now need to xor each window 
     
-    for window in windows:
-        for key in range(1,256):
-            decipheredText = xor(key, convertToBytes(window))
-            print(decipheredText)
+    tstWindow = windows[0]
+    print("testWindow: " + tstWindow)
+    print()
+
+    for keys in singleByte:
+        decipheredText = xor(keys,tstWindow.encode("ascii")) 
+        # print(convertToStr(decipheredText))
+        # print((chr((decipheredText)[0])))
+        if filter(decipheredText) is True:
+            print(filter((decipheredText)))
+            print("HERE")
+
+    # for window in windows:
+    #     print(window)
+    #     print("here")
+    #     keys = []
+    #     lowScore = None
+    #     lowKey = None
+
+    #     for key in range(256):
+    #         decipheredText = xor(key, convertToBytes(window))
+    #         curScore = scoreMsg(convertToStr(decipheredText))
+    #         filter(decipheredText)
+    #         if lowScore is None or curScore < lowScore:
+    #             lowKey = key
+    #             lowScore = curScore
+    #     print(lowKey)
+    #     print()
+    #     keys += [lowKey]
+    
+    # return(keys)
+
     # print(main(windows[0]))
     # for window in windows:
     #     asciiKey = {}
@@ -62,4 +103,4 @@ def decoderM(input, keySize):
     
 
 print("retVal: " + str(keyLen(msg)))
-(decoderM(msg, 5))
+((decoderM(msg, 5)))
