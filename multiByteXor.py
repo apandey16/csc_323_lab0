@@ -12,9 +12,8 @@ def convertToStr(input) -> str:
     for letter in input:
         retStr += chr(letter)
     return retStr
-msg = convertToStr(base64Decode(lines))
 
-# def toBytes(input)
+msg = convertToStr(base64Decode(lines))
 
 def keyLen(input):
     curKeyLen = None
@@ -33,74 +32,42 @@ def keyLen(input):
             
     return scoreLenDict
 
+def decoded(input):
+    localContentDict = {}
+    singleByteLocal = list(range(0, 256))
+    for key in singleByteLocal:
+        content = xor(key, input)
+        
+        decodedStr = ""
+        for single_byte in content:
+            decodedStr += chr(single_byte)
+        localContentDict[decodedStr] = (float(scoreMsg(decodedStr)), key)
+                
+    return dict(sorted(localContentDict.items(), key=operator.itemgetter(1)))
+
 def filter(inputText):
-    # print((inputText))
-    for letter in inputText:
-        character = chr(letter)
-        # print(character.isascii())
-        if character not in letterFrequency and character != ' ':
-            return False
-    
-    return True
+    sortedDict = {}
+    sortedDict = decoded(inputText)
+    return sorted(sortedDict.items(), key=operator.itemgetter(1))
 
 
 def decoderM(input, keySize):
     windows = []
     for i in range(0,keySize):
         windows.append(input[i::keySize])
-    # Windows are made, now need to xor each window 
     
-    tstWindow = windows[0]
-    print("testWindow: " + tstWindow)
-    print()
-
-    for keys in singleByte:
-        decipheredText = xor(keys,tstWindow.encode("ascii")) 
-        # print(convertToStr(decipheredText))
-        # print((chr((decipheredText)[0])))
-        if filter(decipheredText) is True:
-            print(filter((decipheredText)))
-            print("HERE")
-
-    # for window in windows:
-    #     print(window)
-    #     print("here")
-    #     keys = []
-    #     lowScore = None
-    #     lowKey = None
-
-    #     for key in range(256):
-    #         decipheredText = xor(key, convertToBytes(window))
-    #         curScore = scoreMsg(convertToStr(decipheredText))
-    #         filter(decipheredText)
-    #         if lowScore is None or curScore < lowScore:
-    #             lowKey = key
-    #             lowScore = curScore
-    #     print(lowKey)
-    #     print()
-    #     keys += [lowKey]
+    for window in windows:
+        print(window)
+        sortedLst = filter(window.encode('utf-8'))[:1]
+        for item in sortedLst:
+            print("MESSAGE:\n" + item[0])
+            print("SCORE: \n" + str(item[1][0]))
+            print("KEY BYTE VAL: \n" + str(item[1][1]) +"\n")
     
-    # return(keys)
-
-    # print(main(windows[0]))
-    # for window in windows:
-    #     asciiKey = {}
-    #     decode = decoder(window)
-    #     for item in decode:
-    #         curKey = int(item[1][1])
-    #         print(item)
-    #         if curKey in asciiKey:
-    #             asciiKey[curKey] += 1
-    #         else:
-    #            asciiKey[curKey] = 1 
-    #     print(asciiKey)
-    #     # print(decoder(window))
-    #     print()
-    #     print()
-
+        print("_______________________________________________________________________________________________________")
     
     return windows
     
 
 print("retVal: " + str(keyLen(msg)))
-((decoderM(msg, 5)))
+decoderM(msg, 5)
