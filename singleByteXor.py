@@ -7,30 +7,52 @@ singleByte = list(range(0, 256))
 contentDict = {}
 
 file = open("Encrypted Messages/Lab0.TaskII.B.txt", "r")
-lines = file.read().splitlines()
+flines = file.read().splitlines()
 file.close()
 
-def main():
+def scoreMsg(msg: str) -> float:
+
+    trimmedMsg = msg.replace(" ", "")
+    msgLen = len(trimmedMsg)
+
+    msgFrequency = {}
+
+    for char in trimmedMsg:
+        if char in msgFrequency:
+            msgFrequency[char] += 1/msgLen
+        else:
+            msgFrequency[char] = 1/msgLen
+        
+    score = 0
+    for char in msgFrequency:
+        if char.upper() in letterFrequency:
+            score += math.fabs(msgFrequency[char] - letterFrequency[char.upper()])
+        else:
+            score += 1
+    
+    return score
+
+def decoder(lines):
+
     for key in singleByte:
         for line in lines:
             byteContent = convertToBytes(line)
-            content = xor(bytes([key]), byteContent)
+            content = xor(key, byteContent)
             
             decodedStr = ""
             for single_byte in content:
                 decodedStr += chr(single_byte)
-            contentDict[decodedStr] = float(scoreMsg(decodedStr))
+            contentDict[decodedStr] = (float(scoreMsg(decodedStr)), key)
                 
-    sorted_dict = dict(sorted(contentDict.items(), key=operator.itemgetter(1)))
+    return sorted(contentDict.items(), key=operator.itemgetter(1))
 
-    x = 0
-    for item in sorted_dict:
-        if x < 5:
-            print("SCORE:", sorted_dict[item])
-            print("MESSAGE:", item)
-            print()
-            x += 1
-        else:
-            break
+def main():
+    sortedList = decoder(flines)[:5]
+    
+    for item in sortedList:
+        print("MESSAGE:\n" + item[0])
+        print("SCORE: \n" + str(item[1][0]))
+        print("KEY BYTE VAL: \n" + str(item[1][1]) +"\n")
 
-main()
+if __name__ == "__main__":
+        main()
