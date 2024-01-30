@@ -39,10 +39,7 @@ def decoded(input):
     localContentDict = {}
     singleByteLocal = list(range(0, 256))
     for key in singleByteLocal:
-        contentBytes = bytearray()
-
-        for bit in input:
-            contentBytes.append(bit ^ key)
+        contentBytes = xor(key, input)
         
         decodedStr = ""
         for single_byte in contentBytes:
