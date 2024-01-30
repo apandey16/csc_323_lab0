@@ -77,44 +77,20 @@ def keyLength(msg: str) -> list:
 
     return coincidences
 
-    # Using Vigenere grid, decrypt the sublist (msg) using the subkey
-    decryptedMsg = ""
-    subkey = subkey.upper()
-    # for character in subList:
-    #     letterNum = ord(character) - ord("A")
-    #     subkeyShift = (ord(subkey) - ord("A"))
-
-    #     if (letterNum+subkeyShift > 25):
-    #         decryptedNum = (subkeyShift + letterNum) % 26
-    #     else:
-    #         decryptedNum = subkeyShift + letterNum
-
-    #     decryptedMsg += chr(decryptedNum+ord("A"))
-
-    return decryptedMsg
-
 def vigenereDecrypt(key: str, ciphertext: str) -> str:
     # # Using Vigenere grid, decrypt the sublist (msg) using the subkey
     decryptedMsg = ""
-    # print("Key: " + key)
-    # print("CT: " + ciphertext + "\n")
     key = key.upper()
     key_len = len(key)
     
     for i, char in enumerate(ciphertext):
-        # print(i,char)
-        # if char.isalpha():
         row = ord(key[i % key_len]) - ord('A')
         col = ord(char.upper()) - ord('A')
         decryptedMsg += chr((col - row) % 26 + ord('A'))
-        # else:
-        # decryptedMsg += char
 
     return decryptedMsg
 
 def findSubKey(subList: list) -> chr:
-    # Find Subkey from Sublist
-    # list = (subKey, msgScore)
     msgLen = len(subList)
     msgFrequency = [ ('A', 0), ('B', 0), ('C', 0), ('D', 0), ('E', 0), ('F', 0), ('G', 0),
     ('H', 0), ('I', 0), ('J', 0), ('K', 0), ('L', 0), ('M', 0), ('N', 0),
@@ -141,15 +117,14 @@ def findKey(keyLength: int, msg: str) -> str:
 
     return key
 
-file = open("Lab0.TaskII.D.txt", "r")
+file = open("TaskD/Lab0.TaskII.D.txt", "r")
 encryptedMSG = file.readline()
 encryptedMSG = encryptedMSG.strip("\n")
 file.close()
 
 listy = keyLength(encryptedMSG)
-# print(listy) # returns list with peaks that are keylength away from each other
 key = findKey(14, encryptedMSG)
-print(key)
+print("Key: " + key)
 print()
-print(vigenereDecrypt(key.upper(), encryptedMSG))
+print("Decoded Value: \n" + vigenereDecrypt(key.upper(), encryptedMSG))
 
